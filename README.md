@@ -1,14 +1,14 @@
 # MongoScrape
 Week 10 Friday Assignment
-The npm modules required for this project are as follows (all of which have been included in the node modules folder)::
+The npm modules required for this project are as follows (all of which have been included in the node modules folder):
 
-npm 'body-parser'
-npm 'cheerio'
-npm 'express'
-npm 'express-handlebars'
-npm 'mongoose'
-npm 'morgan'
-npm 'request'
+- npm 'body-parser'
+- npm 'cheerio'
+- npm 'express'
+- npm 'express-handlebars'
+- npm 'mongoose'
+- npm 'morgan'
+- npm 'request'
 
 Purpose:
 
