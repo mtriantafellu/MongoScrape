@@ -17,14 +17,14 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
-    extended: false;
+    extended: false
 }));
 
 // Making public static
 app.use(express.static('public'));
 
-// Mongoose connection
-mongoose.connect('mongodb://localhost/mongoscrape');
+// Connec to mongoose db
+mongoose.connect("mongodb://localhost/secondtestmongoose");
 var db = mongoose.connection;
 
 db.on('error', function(error) {
@@ -36,16 +36,20 @@ db.once('open', function() {
 });
 
 // Routes:
+app.get("/scrape", function(req, res) {
 
-app.get('/scrape', function(req, res) {
-    request('http://us.battle.net/heroes/en/blog/', function(error, response, html) {
+    request("http://www.npr.org/", function(error, response, html) {
+
         var $ = cheerio.load(html);
 
-        $('article h2').each(function(i, element) {
+        $("article h2").each(function(i, element) {
+
+            // Save an empty result object
             var result = {};
 
-            result.title = $(this).children('a').text();
-            result.link = $(this).children('a').attr('href');
+            result.title = $(this).children("a").text();
+            result.link = $(this).children("a").attr("href");
+
 
             var entry = new Article(result);
 
@@ -56,8 +60,58 @@ app.get('/scrape', function(req, res) {
                     console.log(doc);
                 }
             });
+
         });
     });
-    res.send('Scrape Complete');
+    res.send("Scrape Complete");
 });
 
+app.get("/articles", function(req, res) {
+    Article.find({})
+        .populate("note")
+        .exec(function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                res.json(doc);
+            }
+        });
+});
+
+app.get("/articles/:id", function(req, res) {
+    Article.findOne({ "_id": req.params.id })
+        .populate("note")
+        .exec(function(error, doc) {
+            if (error) {
+                console.log(error);
+            } else {
+                res.json(doc);
+            }
+        });
+});
+
+
+app.post("/articles/:id", function(req, res) {
+    var newNote = new Note(req.body);
+
+    newNote.save(function(error, doc) {
+        if (error) {
+            console.log(error);
+        } else {
+            Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+                .exec(function(err, doc) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        res.send(doc);
+                    }
+                });
+        }
+    });
+});
+
+// Listen on port 3000
+app.listen(3000, function() {
+    console.log("App running on port 3000!");
+});
