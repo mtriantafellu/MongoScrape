@@ -29,7 +29,7 @@ app.use(express.static('public'));
 // //heroku_52pz09nl:3fvshftcihrkcs2johhcfa2crq@ds115583.mlab.com:15583/heroku_52pz09nl
 //
 
-const dbConnectionString = process.env.MONGODB_URI || "mongodb://localhost/testmongoose";
+const dbConnectionString = process.env.MONGODB_URI || "mongodb://localhost/secondtestmongoose";
 
 mongoose.connect(dbConnectionString);
 var db = mongoose.connection;
