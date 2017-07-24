@@ -15,6 +15,8 @@ mongoose.Promise = Promise;
 
 var app = express();
 
+//var port = process.env.PORT || 3000;
+
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
     extended: false
@@ -23,10 +25,13 @@ app.use(bodyParser.urlencoded({
 // Making public static
 app.use(express.static('public'));
 
-// Connec to mongoose db
+// Connect to mongoose db
 // //heroku_52pz09nl:3fvshftcihrkcs2johhcfa2crq@ds115583.mlab.com:15583/heroku_52pz09nl
-// //mongodb://localhost/secondtestmongoose
-mongoose.connect("heroku_52pz09nl:3fvshftcihrkcs2johhcfa2crq@ds115583.mlab.com:15583/heroku_52pz09nl");
+//
+
+const dbConnectionString = process.env.MONGODB_URI || "mongodb://localhost/testmongoose";
+
+mongoose.connect(dbConnectionString);
 var db = mongoose.connection;
 
 db.on('error', function(error) {
