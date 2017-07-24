@@ -27,9 +27,10 @@ app.use(express.static('public'));
 
 // Connect to mongoose db
 // //heroku_52pz09nl:3fvshftcihrkcs2johhcfa2crq@ds115583.mlab.com:15583/heroku_52pz09nl
-//
+//  mongodb://heroku_kb2192pz:2btvhqnitbj5qr952v8mpdebr1@ds151008.mlab.com:51008/heroku_kb2192pz
 
-const dbConnectionString = process.env.MONGODB_URI || "mongodb://localhost/secondtestmongoose";
+
+const dbConnectionString = process.env.MONGODB_URI || "mongodb://heroku_kb2192pz:2btvhqnitbj5qr952v8mpdebr1@ds151008.mlab.com:51008/heroku_kb2192pz";
 
 mongoose.connect(dbConnectionString);
 var db = mongoose.connection;
